@@ -32,11 +32,47 @@ app.use(session({
 }))
 
 app.use(cookieParser("thissecret"))
+app.use(passport.initialize())
+app.use(passport.session());
+require("./passportConfig")(passport)
+
+// ================ end of middleware ==============================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // routes
-app.post("/login", (req, res) => {
+app.post("/login", (req, res, next) => {
     console.log("user login")
     console.log(req.body)
+
+
+
+    passport.authenticate("local", (err, user, info) => {
+        if (err) throw err
+        if (!user) res.send("no user exists")
+        else {
+            req.logIn(user, err => {
+                if (err) throw err
+                res.send("successfully authenticated")
+            })
+        }
+    })(req, res, next)
 })
 
 app.post("/register", (req, res) => {
@@ -58,7 +94,7 @@ app.post("/register", (req, res) => {
 })
 
 app.get("/user", (req, res) => {
-    console.log(req.body)
+    res.send(req.user)
 })
 
 // start server
