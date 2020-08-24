@@ -1,6 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import './App.css';
 import axios from "axios"
+import ContextChecker from './components/contextChecker'
+import { UserContext } from "./context/authContext";
+
+
 function App() {
 
   const [registerUsername, setRegisterUsername] = useState("")
@@ -9,6 +13,10 @@ function App() {
   const [loginPassword, setLoginPassword] = useState("")
   const [data, setData] = useState(null)
 
+
+  // context manipulation
+  const [user, setUser] = useState(null)
+  const value = useMemo(() => ({user, setUser}), [user, setUser])
 
   const register = () => {
     axios({
@@ -30,8 +38,12 @@ function App() {
       },
       withCredentials: true,
       url: "/login"
-    }).then(res => console.log(res))
+    }).then(res => {
+      console.log(res)
+    })
   }
+
+
   const getUser = () => {
     axios({
       method: "get",
@@ -43,6 +55,9 @@ function App() {
     })
   }
 
+  useEffect(()=> {
+    getUser()
+  }, [])
 
 
 
@@ -71,7 +86,10 @@ function App() {
           data ? <h1>welcome back {data.username}</h1> : null
         }
       </div>
-
+      <UserContext.Provider value={value}>
+        <ContextChecker />
+      </UserContext.Provider>
+       
     </div>
   );
 }
