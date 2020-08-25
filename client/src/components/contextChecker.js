@@ -8,7 +8,7 @@ function ContextChecker() {
 
     return (
         <div>
-            <pre>{JSON.stringify(user)}</pre>
+            {/* <pre>{JSON.stringify(user)}</pre> */}
             {user ?
                 <button onClick={()=> {
                     setUser(null)

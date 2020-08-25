@@ -5,7 +5,8 @@ require('dotenv').config()
 
 mongoose.connect(process.env.MONGOCLUSTER, {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useFindAndModify: false
 },
 ()=> console.log("mongoose is connected"))
 

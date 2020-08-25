@@ -43,11 +43,37 @@ router.route("/register").post( (req, res) => {
     })
 })
 
+// fetch user account
 router.route("/user").get((req, res) => {
     res.send(req.user)
 })
 
 
+// pet doggo
+router.route("/pet").post((req, res, next) => {
+
+    var goodBoi = req.body.petted;
+
+    var newPet = goodBoi
+    try {
+        User.findOneAndUpdate(
+            { username: req.body.username },
+            { $push: { petted: newPet } },
+            { new: true },
+            (err, data) => {
+                if (err) {
+                    console.log("something went wrong when updating data!")
+                }
+                return res.send(data)
+            }
+        )
+    }
+    catch (err) {
+        res.status(500).send(err)
+    }
+
+
+})
 
 
 module.exports = router;

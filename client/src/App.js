@@ -3,7 +3,8 @@ import './App.css';
 import axios from "axios"
 import ContextChecker from './components/contextChecker'
 import { UserContext } from "./context/authContext";
-
+import PettedList from "./components/pettedList";
+import NewDogs from './components/newDogs';
 
 function App() {
 
@@ -40,6 +41,7 @@ function App() {
       url: "/login"
     }).then(res => {
       console.log(res)
+      getUser()
     })
   }
 
@@ -86,10 +88,11 @@ function App() {
           data ? <h1>welcome back {data.username}</h1> : null
         }
       </div>
+        { data ? <PettedList petted={data.petted}/> : null}
       <UserContext.Provider value={value}>
         <ContextChecker />
       </UserContext.Provider>
-       
+      <NewDogs />
     </div>
   );
 }
