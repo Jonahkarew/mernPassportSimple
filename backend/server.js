@@ -7,9 +7,10 @@ const cookieParser = require("cookie-parser")
 const bcrypt = require("bcryptjs")
 const session = require("express-session")
 const bodyParser = require("body-parser")
+require('dotenv').config()
 const User = require("./user")
 
-mongoose.connect("mongodb+srv://test:test@cluster0.c0cxe.mongodb.net/<dbname>?retryWrites=true&w=majority", {
+mongoose.connect(process.env.MONGOCLUSTER, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 },
